@@ -2,10 +2,13 @@
 
 FROM dunglas/frankenphp:php8.2-bookworm
 
-# Install system dependencies and Node.js 18
-RUN apt-get update && apt-get install -y curl gnupg && \
+# Install system dependencies, Node.js 18, and Composer
+RUN apt-get update && apt-get install -y curl gnupg unzip && \
     curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs && \
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
+    php -r "unlink('composer-setup.php');" && \
     rm -rf /var/lib/apt/lists/*
 
 # Install required PHP extensions
