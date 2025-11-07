@@ -1,0 +1,198 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container-fluid">
+  <div class="row">
+    @include('admin.partials.sidebar')
+    <main class="col-md-10 py-4">
+        <div class="admin-back-btn-wrap">
+            @if(request()->has('return_to'))
+              <a href="{{ urldecode(request('return_to')) }}" class="btn btn-secondary rounded-pill px-3">&lt; Back to Dashboard</a>
+            @else
+              <a href="{{ route('admin.events.index') }}" class="btn btn-secondary rounded-pill px-3">&lt; Back to Events</a>
+            @endif
+        </div>
+        <div class="py-3">
+            <h1 class="h4 mb-4">
+                <span class="badge bg-secondary me-2">All Events</span>
+                Created Events
+            </h1>
+            <p class="text-muted small mb-3">All events created by staff, categorized by status</p>
+
+            <!-- Search and Filter Form -->
+            <form method="GET" action="{{ route('admin.events.created') }}" class="mb-4">
+                @if(request()->has('return_to'))
+                  <input type="hidden" name="return_to" value="{{ request('return_to') }}">
+                @endif
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <label for="search" class="form-label">Search Events</label>
+                        <input type="text" class="form-control" id="search" name="search" value="{{ request('search') }}" placeholder="Search by name or description...">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="description" class="form-label">Filter by Description</label>
+                        <select class="form-control" id="description" name="description">
+                            <option value="">All Descriptions</option>
+                            @foreach($descriptions ?? [] as $desc)
+                                <option value="{{ $desc }}" {{ request('description') == $desc ? 'selected' : '' }}>{{ $desc }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="organization_id" class="form-label">Filter by Organization/Coordinator</label>
+                        <select class="form-control" id="organization_id" name="organization_id">
+                            <option value="">All Organizations</option>
+                            @foreach($organizations ?? [] as $org)
+                                <option value="{{ $org->id }}" {{ request('organization_id') == $org->id ? 'selected' : '' }}>{{ $org->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">Filter</button>
+                    </div>
+                </div>
+                @if(request()->hasAny(['search', 'description', 'organization_id']))
+                    @if(request()->has('return_to'))
+                      <a href="{{ route('admin.events.created', ['return_to' => request('return_to')]) }}" class="btn btn-outline-secondary btn-sm">Clear Filters</a>
+                    @else
+                      <a href="{{ route('admin.events.created') }}" class="btn btn-outline-secondary btn-sm">Clear Filters</a>
+                    @endif
+                @endif
+            </form>
+
+            <!-- Approved Events Subsection -->
+            <div class="mb-5">
+                <h3 class="h6 mb-3">
+                    <span class="badge bg-success me-2">Approved</span>
+                    Approved Events
+                    <span class="badge bg-secondary">{{ $approvedEvents->total() }}</span>
+                </h3>
+                <div class="bg-white shadow rounded-lg overflow-x-auto">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Event Name</th>
+                                <th>Description</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Location</th>
+                                <th>Coordinator</th>
+                                <th>View Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($approvedEvents as $event)
+                            <tr>
+                                <td><strong>{{ $event->name }}</strong></td>
+                                <td>{{ $event->description ?? 'N/A' }}</td>
+                                <td>
+                                    @if($event->start_time)
+                                        {{ \Carbon\Carbon::parse($event->start_time)->format('M d, Y h:i A') }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($event->end_time)
+                                        {{ \Carbon\Carbon::parse($event->end_time)->format('M d, Y h:i A') }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>{{ $event->location ?? 'N/A' }}</td>
+                                <td>{{ $event->organization->name ?? 'N/A' }}</td>
+                                <td>
+                                    <a href="{{ route('admin.events.show', $event->id) }}" class="btn btn-sm btn-primary">View Details</a>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="7" class="text-center py-4">
+                                    <div class="text-muted">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        No approved events found.
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-3">
+                    {{ $approvedEvents->links() }}
+                </div>
+            </div>
+
+            <!-- Declined Events Subsection -->
+            <div class="mb-5">
+                <h3 class="h6 mb-3">
+                    <span class="badge bg-danger me-2">Declined</span>
+                    Declined Events
+                    <span class="badge bg-secondary">{{ $declinedEvents->total() }}</span>
+                </h3>
+                <div class="bg-white shadow rounded-lg overflow-x-auto">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Event Name</th>
+                                <th>Description</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Location</th>
+                                <th>Coordinator</th>
+                                <th>View Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($declinedEvents as $event)
+                            <tr>
+                                <td>
+                                    <strong>{{ $event->name }}</strong>
+                                    @if($event->decline_reason)
+                                        <br><small class="text-danger"><i class="bi bi-info-circle me-1"></i><strong>Reason:</strong> {{ \Illuminate\Support\Str::limit($event->decline_reason, 100) }}</small>
+                                    @endif
+                                </td>
+                                <td>{{ $event->description ?? 'N/A' }}</td>
+                                <td>
+                                    @if($event->start_time)
+                                        {{ \Carbon\Carbon::parse($event->start_time)->format('M d, Y h:i A') }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($event->end_time)
+                                        {{ \Carbon\Carbon::parse($event->end_time)->format('M d, Y h:i A') }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>{{ $event->location ?? 'N/A' }}</td>
+                                <td>{{ $event->organization->name ?? 'N/A' }}</td>
+                                <td>
+                                    <a href="{{ route('admin.events.show', $event->id) }}" class="btn btn-sm btn-primary">View Details</a>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="7" class="text-center py-4">
+                                    <div class="text-muted">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        No declined events found.
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-3">
+                    {{ $declinedEvents->links() }}
+                </div>
+            </div>
+
+        </div>
+        </main>
+    </div>
+</div>
+@endsection

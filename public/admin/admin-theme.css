@@ -1,0 +1,113 @@
+:root {
+  --primary: #00D9A5;
+  --accent: #FF3D85;
+  --secondary: #4E5AFE;
+  --warning: #EED818;
+  --info: #05B4E1;
+  --danger: #FF4943;
+  --success: #96C93D;
+  --dark: #343531;
+  --light: #F5F9F6;
+  --cs: #596261;
+  --grey: #6E807A;
+}
+
+body {
+  font-family: "Source Sans Pro", sans-serif;
+  line-height: 1.5;
+  color: #343531;
+}
+
+a {
+  color: #07be94;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+a:hover {
+  color: #03a882;
+  text-decoration: underline;
+}
+
+/* Font sizes */
+.text-xs { font-size: 12px !important; }
+.text-sm { font-size: 14px !important; }
+.text-md { font-size: 1rem !important; }
+.text-lg { font-size: 18px !important; }
+.text-xl { font-size: 20px !important; }
+
+/* Color systems */
+.bg-primary { background-color: #00D9A5 !important; }
+a.bg-primary:hover, a.bg-primary:focus { background-color: #07be94 !important; }
+.bg-accent { background-color: #FF3D85 !important; }
+a.bg-accent:hover, a.bg-accent:focus { background-color: #e93577 !important; }
+.bg-secondary { background-color: #4E5AFE !important; }
+a.bg-secondary:hover, a.bg-secondary:focus { background-color: #3d49f0 !important; }
+.bg-success { background-color: #96C93D !important; }
+a.bg-success:hover, a.bg-success:focus { background-color: #80b12d !important; }
+.bg-info { background-color: #05B4E1 !important; }
+a.bg-info:hover, a.bg-info:focus { background-color: #07a2c8 !important; }
+.bg-warning { background-color: #EED818 !important; }
+a.bg-warning:hover, a.bg-warning:focus { background-color: #d3bf0d !important; }
+.bg-danger { background-color: #FF4943 !important; }
+a.bg-danger:hover, a.bg-danger:focus { background-color: #e73832 !important; }
+.bg-grey { background-color: #6E807A !important; }
+a.bg-grey:hover, a.bg-grey:focus { background-color: #62726d !important; }
+.bg-light { background-color: #F5F9F6 !important; }
+a.bg-light:hover, a.bg-light:focus { background-color: #E1EBE8 !important; }
+.bg-dark { background-color: #343531 !important; }
+a.bg-dark:hover, a.bg-dark:focus { background-color: #1e1f1c !important; }
+
+.text-primary { color: #00D9A5 !important; }
+a.text-primary:hover, a.text-primary:focus { color: #07be94 !important; }
+.text-accent { color: #FF3D85 !important; }
+a.text-accent:hover, a.text-accent:focus { color: #e93577 !important; }
+.text-secondary { color: #4E5AFE !important; }
+a.text-secondary:hover, a.text-secondary:focus { color: #3d49f0 !important; }
+.text-success { color: #96C93D !important; }
+a.text-success:hover, a.text-success:focus { color: #80b12d !important; }
+.text-info { color: #05B4E1 !important; }
+a.text-info:hover, a.text-info:focus { color: #07a2c8 !important; }
+.text-warning { color: #EED818 !important; }
+a.text-warning:hover, a.text-warning:focus { color: #d3bf0d !important; }
+.text-danger { color: #FF4943 !important; }
+a.text-danger:hover, a.text-danger:focus { color: #e73832 !important; }
+.text-grey { color: #6E807A !important; }
+a.text-grey:hover, a.text-grey:focus { color: #62726d !important; }
+.text-light { color: #F5F9F6 !important; }
+a.text-light:hover, a.text-light:focus { color: #E1EBE8 !important; }
+.text-dark { color: #343531 !important; }
+a.text-dark:hover, a.text-dark:focus { color: #1e1f1c !important; }
+.text-body { color: #252921 !important; }
+
+/* Borders */
+.border-primary { border-color: #00D9A5 !important; }
+.border-secondary { border-color: #FF3D85 !important; }
+.border-success { border-color: #96C93D !important; }
+.border-info { border-color: #05B4E1 !important; }
+.border-warning { border-color: #EED818 !important; }
+.border-danger { border-color: #FF4943 !important; }
+.border-grey { border-color: #6E807A !important; }
+.border-light { border-color: #F5F9F6 !important; }
+.border-dark { border-color: #343531 !important; }
+
+/* Buttons */
+.btn-primary { color: #fff; background-color: #00D9A5; border-color: transparent; }
+.btn-primary.disabled, .btn-primary:disabled { color: #fff; background-color: #07be94; border-color: transparent; }
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle { color: #fff; background-color: #00D9A5; border-color: #07be94; }
+.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-primary.dropdown-toggle:focus { box-shadow: none; }
+
+/* Repeat similar button styles for .btn-accent, .btn-secondary, .btn-success, .btn-info, .btn-warning, .btn-danger, .btn-light, .btn-dark, .btn-outline-* as in your palette above */
+
+/* Add all other CSS rules from your palette and theme here... */
+
+/* Example for sidebar, navbar, cards, etc. */
+.sidebar { background: var(--primary); color: #fff; }
+.navbar { background: var(--secondary); color: #fff; }
+.card { border-radius: 8px; box-shadow: 0 2px 8px rgba(52, 53, 49, 0.08); }
+.card-header { background: var(--primary); color: #fff; font-weight: 600; }
+.card-body { background: #fff; }
+
+/* Continue with your custom styles as needed */
