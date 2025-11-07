@@ -1,0 +1,8 @@
+{
+  "$schema": "https://railpack.dev/schema.json",
+  "php": {
+    "extensions": [
+      "gd"
+    ]
+  }
+}
