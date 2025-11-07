@@ -1,6 +1,12 @@
 # syntax=docker/dockerfile:1
 
-FROM dunglas/frankenphp:php8.2-node18-bookworm
+FROM dunglas/frankenphp:php8.2-bookworm
+
+# Install system dependencies and Node.js 18
+RUN apt-get update && apt-get install -y curl gnupg && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install required PHP extensions
 RUN install-php-extensions ctype curl dom fileinfo filter hash mbstring \
