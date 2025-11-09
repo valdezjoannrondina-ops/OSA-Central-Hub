@@ -1,28 +1,10 @@
 {
   "$schema": "https://railpack.dev/schema.json",
-  "php": {
-    "extensions": [
-      "ctype",
-      "curl",
-      "dom",
-      "fileinfo",
-      "filter",
-      "hash",
-      "mbstring",
-      "openssl",
-      "pcre",
-      "pdo_mysql",
-      "pdo_pgsql",
-      "session",
-      "tokenizer",
-      "xml",
-      "gd",
-      "zip"
-    ]
-  },
   "build": {
     "commands": [
-      "install-php-extensions gd zip",
+      "apt-get update && apt-get install -y libpng-dev libjpeg62-turbo-dev libfreetype6-dev libzip-dev zip unzip",
+      "docker-php-ext-configure gd --with-freetype --with-jpeg",
+      "docker-php-ext-install gd zip",
       "composer install --no-dev --prefer-dist --optimize-autoloader",
       "npm ci",
       "npm run build",
