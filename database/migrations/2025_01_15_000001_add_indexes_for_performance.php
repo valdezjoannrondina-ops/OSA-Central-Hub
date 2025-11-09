@@ -135,17 +135,32 @@ return new class extends Migration
     private function hasIndex(string $table, string $indexName): bool
     {
         $connection = Schema::getConnection();
+        $driver = $connection->getDriverName();
+
+        if ($driver === 'sqlite') {
+            $indexes = $connection->select("PRAGMA index_list('" . $table . "')");
+            foreach ($indexes as $index) {
+                $name = $index->name ?? null;
+                if ($name && strcasecmp($name, $indexName) === 0) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        if ($driver === 'pgsql') {
+            $result = $connection->select("SELECT COUNT(*) AS count FROM pg_indexes WHERE schemaname = ANY(current_schemas(false)) AND tablename = ? AND indexname = ?", [$table, $indexName]);
+            return !empty($result) && (($result[0]->count ?? 0) > 0);
+        }
+
         $databaseName = $connection->getDatabaseName();
-        
-        $result = $connection->select("
-            SELECT COUNT(*) as count
-            FROM information_schema.statistics
-            WHERE table_schema = ?
-            AND table_name = ?
-            AND index_name = ?
-        ", [$databaseName, $table, $indexName]);
-        
-        return $result[0]->count > 0;
+
+        $result = $connection->select(
+            "SELECT COUNT(*) as count FROM information_schema.statistics WHERE table_schema = ? AND table_name = ? AND index_name = ?",
+            [$databaseName, $table, $indexName]
+        );
+
+        return !empty($result) && (($result[0]->count ?? 0) > 0);
     }
 };
 
