@@ -20,16 +20,14 @@ RUN install-php-extensions ctype curl dom fileinfo filter hash mbstring \
 # Set working directory
 WORKDIR /app
 
-# Copy composer files and install PHP dependencies
-COPY composer.json composer.lock ./
+# Copy application source first so artisan is present during composer install
+COPY . ./
+
+# Install PHP dependencies
 RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
 
-# Copy package metadata and install JS dependencies
-COPY package.json package-lock.json ./
+# Install JS dependencies
 RUN npm ci
-
-# Copy application source
-COPY . .
 
 # Build assets and cache configuration
 RUN npm run build \
