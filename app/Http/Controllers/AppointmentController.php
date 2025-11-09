@@ -114,7 +114,7 @@ class AppointmentController extends Controller
                     'time' => $appt->appointment_time
                 ];
             })->toArray();
-        
+
         // Calculate fully booked dates (all 16 time slots are taken: 8:00 AM to 3:00 PM in 30-min intervals)
         $allowedTimes = [];
         for ($hour = 8; $hour <= 15; $hour++) {
