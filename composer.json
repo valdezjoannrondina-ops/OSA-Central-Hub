@@ -36,12 +36,6 @@
         }
     },
     "scripts": {
-        "pre-install-cmd": [
-            "@php scripts/install-gd-extension.php"
-        ],
-        "pre-update-cmd": [
-            "@php scripts/install-gd-extension.php"
-        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"

@@ -18,9 +18,8 @@ RUN install-php-extensions ctype curl dom fileinfo filter hash mbstring \
 # Set working directory
 WORKDIR /app
 
-# Copy composer files, scripts, and install dependencies
+# Copy composer files and install dependencies
 COPY composer.json composer.lock ./
-COPY scripts ./scripts
 RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
 
 # Copy package files and install node dependencies
