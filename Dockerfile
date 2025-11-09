@@ -15,7 +15,7 @@ RUN apt-get update \
 
 # Install required PHP extensions
 RUN install-php-extensions ctype curl dom fileinfo filter hash mbstring \
-    openssl pcre pdo_mysql pdo_pgsql session tokenizer xml gd
+    openssl pcre pdo_mysql pdo_pgsql session tokenizer xml gd zip
 
 # Set working directory
 WORKDIR /app
