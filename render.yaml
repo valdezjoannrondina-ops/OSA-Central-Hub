@@ -3,7 +3,7 @@ services:
     name: osa-hub-web
     env: docker
     plan: free
-    repo: https://github.com/jamespailagao12345-ui/OSA-Central-Hub
+    repo: https://github.com/valdezjoannrondina-ops/OSA-Central-Hub
     branch: main
     autoDeploy: true
     envVars:
@@ -46,7 +46,7 @@ services:
     name: osa-hub-queue
     env: docker
     plan: free
-    repo: https://github.com/jamespailagao12345-ui/OSA-Central-Hub
+    repo: https://github.com/valdezjoannrondina-ops/OSA-Central-Hub
     branch: main
     autoDeploy: true
     dockerCommand: php artisan queue:work --tries=1 --sleep=3
