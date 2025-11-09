@@ -3,10 +3,10 @@
 # Base FrankenPHP image with PHP 8.2
 FROM dunglas/frankenphp:php8.2-bookworm
 
-# Install system dependencies, Node.js 18, and Composer
+# Install system dependencies, Node.js 22, and Composer
 RUN apt-get update \
     && apt-get install -y curl gnupg unzip \
-    && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y nodejs \
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
@@ -32,8 +32,7 @@ RUN npm ci
 # Build assets and cache configuration
 RUN npm run build \
     && php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache
+    && php artisan route:cache
 
 # Expose Laravel server port
 EXPOSE 8000
